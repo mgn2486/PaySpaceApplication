@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model PaySpaceApplication.Models.TaxCalculateRequestModel
+
+@{
+    ViewBag.Title = "Tax Calculater";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<style type="text/css">
+    .input-row {
+        margin-top: 20px;
+    }
+
+    #postalCode .dropdown {
+        display: inline-block;
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Pay Space</h1>
+    <hr style="width:50%; margin:0 auto;" />
+    <div class="container">
+        <div class="row justify-content-md-center" style="width:60%; margin:0 auto;">
+
+            <form id="taxCalculationForm" style="margin-top: 20px;">
+                <div class="form-group row input-row" style="text-align:right;">
+                    <label for="annualSalary" class="col-sm-6 col-form-label">Annual Salary</label>
+                    <div class="col-sm-4">
+                        <input style="text-align:right;" type="number" class="form-control" id="annualSalary" name="annualSalary" placeholder="0.00">
+                    </div>
+                </div>
+                <div class="form-group row input-row" style="text-align:right;">
+                    <label for="postalCode" class="col-sm-6 col-form-label">Postal Code</label>
+                    <div class="col-sm-4">
+                        <select class="form-select" id="postalCode" name="postalCode" aria-label="Default select example">
+                        </select>
+                    </div>
+                    <div class="row cols-sm-4 ">
+                        <p id="postalCodeError" style="color:red; visibility:hidden;"></p>
+                    </div>
+                </div>
+                <div class="form-group row input-row">
+                    <div class="col-sm-10" style="text-align:right;">
+                        <button class="btn btn-primary" id="btnCalculateTax" type="button">Calculate</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="clearfix" style="width:50%; margin-top:20px;">
+                <div class="float-end">
+                    <h3>Tax Calculation </h3>
+                <br />
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-4">
+                            <h4>Tax Amount</h4>
+                        </div>
+                        <div class="col-xs-6">
+                            <p style="color: purple; font-weight: bold; font-size: 34px;" id="taxAmount"> R 0.00</p>
+                        </div>                       
+                    </div>
+                </div>
+                <div class="row">
+                        <h4>Net Amount</h4>
+                    <div class="col-xs-12">
+                            <p style="color: green; font-weight: bold; font-size: 34px;" id="netSalary">R 0.00</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#btnCalculateTax").click(function (e) {
+
+            var annualSalary = $('#annualSalary').val();
+            var postalCode = $('#postalCode').val();
+            var postalCodesArray = [1,2,3,4];
+
+            if (!(annualSalary > 0) || !postalCodesArray.includes(parseInt(postalCode))) {
+                document.getElementById("postalCodeError").style.visibility = "visible";
+                $("p#postalCodeError").text('Please Kindly provide us with valid data.');
+                return;
+            }
+
+            $.ajax({
+                url: "tax/CalculateSalaryTax",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    'annualSalary': annualSalary,
+                    'postalCodeId': postalCode,
+                }),
+                success: function (dataResponse) {
+                    if (dataResponse && dataResponse.isSuccessfull && dataResponse.data) {
+                        var data = dataResponse.data;
+                        $("p#taxAmount").text('R ' + data.taxAmount);
+                        $("p#netSalary").text('R ' + data.netSalary);
+                    }
+                }
+            });
+        });
+
+
+        $.ajax({
+            url: 'tax/GetTaxPostalCodes',
+            type: 'GET',
+            dataType: 'json',
+            success: function (dataResponse) {
+                if (dataResponse && dataResponse.isSuccessfull && dataResponse.data && dataResponse.data.length > 0) {
+                    var data = dataResponse.data;
+                    document.getElementById("postalCodeError").style.visibility = "hidden";
+                    var s = '<option value="0">-- Select Postal Code --</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i])
+                        s += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    }
+                    $("#postalCode").html(s);
+                }
+                else
+                {
+                    document.getElementById("postalCodeError").style.visibility = "visible";
+                    $("p#postalCodeError").text('Sorry we could not find any registered tax codes...');
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                document.getElementById("postalCodeError").style.visibility = "visible";
+                $("p#postalCodeError").text('Sorry cant get to the server...');
+            }
+        });
+
+    });
+</script>
