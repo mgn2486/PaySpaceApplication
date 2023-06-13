@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DomainHelper", "DomainHelpe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelperLibrary", "HelperLibrary\HelperLibrary.csproj", "{556146B9-A4C3-4FEC-AAC7-B218AF9A5F11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaySpaceBLL.Tests", "PaySpaceBLL.Tests\PaySpaceBLL.Tests.csproj", "{0908B7D7-0D3C-4721-803D-268AC9AEA7A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaySpaceBLL.Tests", "PaySpaceBLL.Tests\PaySpaceBLL.Tests.csproj", "{0908B7D7-0D3C-4721-803D-268AC9AEA7A6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{C6A832FE-3B6B-4540-9E15-D08C4DBD9EB7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{C6A832FE-3B6B-4540-9E15-D08C4DBD9EB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

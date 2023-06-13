@@ -66,7 +66,7 @@ namespace PaySpaceBLL.DomainServices
 
                     var listOfTaxRangeModel = await _taxRepository.GetTaxRangesByTaxNameIdAsync(taxRange.TaxNameId);
 
-                    var alreadyExists = listOfTaxRangeModel.Any(x => x.Rate == taxRange.Rate && x.StartAmount == taxRange.StartAmount);
+                    var alreadyExists = listOfTaxRangeModel.Any(x => x.Rate == taxRange.Rate && x.StartAmount == taxRange.StartAmount && x.TaxNameId == taxRange.TaxNameId);
 
                     if (alreadyExists)
                     {
@@ -81,7 +81,7 @@ namespace PaySpaceBLL.DomainServices
 
                     serviceResponse.IsSuccessfull = true;
                     serviceResponse.Data = _mapper.Map<TaxRangeCreateDto>(taxRangeCreateResponseModel);
-                    serviceResponse.Message = "Sorry we could not find the tax name to link this range";
+                    serviceResponse.Message = "Successfuly created the new range";
                 }
                 else 
                 {

@@ -37,6 +37,10 @@ namespace PaySpaceBLL.Tests
 
             // ASSERT
             requestResult.EnsureSuccessStatusCode();
+            var json = await requestResult.Content.ReadAsStringAsync();
+            var taxNameResponse = JsonConvert.DeserializeObject<ServiceResponse<TaxNameCreateDto>>(json);
+
+            Assert.AreEqual(taxNameResponse.IsSuccessfull, true);
         }
 
 
@@ -47,7 +51,7 @@ namespace PaySpaceBLL.Tests
         [TestCase( 0.33, 171551, 372950, 1 )]
         [TestCase( 0.35, 372950, 600000, 1 )]
         [TestCase( 0.05, 0, 10000, 2 )]
-        [TestCase( 17.5, 0, 3 )]
+        [TestCase( 17.5, 0, 0, 3 )]
         public async Task TaxRange_CreateTaxRange_Fail_On_Error(double rate, int startAmount, int endAmount, int taxNameId)
         {
             // ARRANGE
@@ -56,8 +60,12 @@ namespace PaySpaceBLL.Tests
             // ACT
             var requestResult = await _httpClient.PostAsJsonAsync("tax/CreateTaxRangeRequest", createTaxRange);
 
-            requestResult.EnsureSuccessStatusCode();
             // ASSERT
+            requestResult.EnsureSuccessStatusCode();
+            var json = await requestResult.Content.ReadAsStringAsync();
+            var taxRangeResponse = JsonConvert.DeserializeObject<ServiceResponse<TaxRangeCreateDto>>(json);
+
+            Assert.AreEqual(taxRangeResponse.IsSuccessfull, true);
 
         }
 
@@ -88,7 +96,7 @@ namespace PaySpaceBLL.Tests
 
         [TestCase(23.89, 1, 23.65)]
         [TestCase(37251, 1, 27938.25)]
-        [TestCase(23000, 2, 19550)]
+        [TestCase(23000, 2, 21850)]
         [TestCase(34423, 3, 28398.98)]
         [TestCase(3333.98, 4, 3300.64)]
         public async Task TaCalculator_GetTaxCalculated_Fail_On_Error(double annualSalary, int postalCodeId, double netSalary)

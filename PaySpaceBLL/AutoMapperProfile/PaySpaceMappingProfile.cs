@@ -19,5 +19,7 @@ public class PaySpaceMappingProfile : Profile
         CreateMap<PostalCodeDto, PostalCode>().ReverseMap();
 
         CreateMap<GetPostalCodeDto, PostalCode>().ReverseMap();
+
+        CreateMap<TaxRangeCreateDto, TaxRange>().ReverseMap();
     }
 }
