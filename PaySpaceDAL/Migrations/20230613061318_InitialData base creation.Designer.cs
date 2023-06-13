@@ -12,8 +12,8 @@ using PaySpaceDAL;
 namespace PaySpaceDAL.Migrations
 {
     [DbContext(typeof(PaySpaceDbContext))]
-    [Migration("20230612181118_InitialDbSetup")]
-    partial class InitialDbSetup
+    [Migration("20230613061318_InitialData base creation")]
+    partial class InitialDatabasecreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

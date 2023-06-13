@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PaySpaceDAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDbSetup : Migration
+    public partial class InitialDatabasecreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
