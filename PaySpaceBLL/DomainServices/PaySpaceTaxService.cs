@@ -254,7 +254,6 @@ namespace PaySpaceBLL.DomainServices
                     break;
 
                 default:
-                    response = null; 
                     break;
 
             }

@@ -92,6 +92,8 @@
                 return;
             }
 
+            $("p#postalCodeError").text('');
+
             $.ajax({
                 url: "tax/CalculateSalaryTax",
                 type: "POST",
